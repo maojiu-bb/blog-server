@@ -27,7 +27,7 @@ export const findAllBlogsModel = async () => {
 
 export const findBlogSortModel = async () => {
   try {
-    const res = await model.find().sort({ star: -1 }).exec()
+    const res = await model.find().sort({ view: -1 }).exec()
     return res
   } catch (error) {
     return {}
