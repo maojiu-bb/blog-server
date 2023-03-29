@@ -5,7 +5,9 @@ import {
   findBlogDetailModel,
   findBlogSortModel,
   findObscureBlogModel,
-  insertBlogModel
+  insertBlogModel,
+  updateStarModel,
+  updateViewModel
 } from '../models/blogs.js'
 
 import { findAllSwiperModel } from '../models/swipers.js'
@@ -164,6 +166,58 @@ router.post('/publicBlog', async (req, res) => {
       res.send({
         code: 201,
         msg: '发布blog失败！',
+        data: null
+      })
+    }
+  }
+})
+// 浏览blog
+router.post('/updateView', async (req, res) => {
+  const updateInfo = req.body
+  if (!updateInfo.blog_id || !updateInfo.newView) {
+    return res.send({
+      code: 201,
+      msg: '请填写完整的信息！',
+      data: null
+    })
+  } else {
+    const result = await updateViewModel(updateInfo)
+    if (result) {
+      res.send({
+        code: 200,
+        msg: '更新数据成功！',
+        data: null
+      })
+    } else {
+      res.send({
+        code: 201,
+        msg: '更新数据失败！',
+        data: null
+      })
+    }
+  }
+})
+// star blog
+router.post('/updateStar', async (req, res) => {
+  const updateInfo = req.body
+  if (!updateInfo.blog_id || !updateInfo.newStar) {
+    return res.send({
+      code: 201,
+      msg: '请填写完整的信息！',
+      data: null
+    })
+  } else {
+    const result = await updateStarModel(updateInfo)
+    if (result) {
+      res.send({
+        code: 200,
+        msg: '更新数据成功！',
+        data: null
+      })
+    } else {
+      res.send({
+        code: 201,
+        msg: '更新数据失败！',
         data: null
       })
     }

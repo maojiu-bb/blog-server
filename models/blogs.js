@@ -77,3 +77,29 @@ export const insertBlogModel = async (blogInfo) => {
     return false
   }
 }
+
+export const updateViewModel = async (updateInfo) => {
+  const { blog_id, newView } = updateInfo
+  try {
+    const res = await model.updateOne(
+      { blog_id: blog_id },
+      { $set: { view: newView } }
+    )
+    return res
+  } catch (error) {
+    return false
+  }
+}
+
+export const updateStarModel = async (updateInfo) => {
+  const { blog_id, newStar } = updateInfo
+  try {
+    const res = await model.updateOne(
+      { blog_id: blog_id },
+      { $set: { star: newStar } }
+    )
+    return res
+  } catch (error) {
+    return false
+  }
+}
