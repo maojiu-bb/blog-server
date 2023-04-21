@@ -25,3 +25,12 @@ export const insertProjectModel = async (projectInfo) => {
     return false
   }
 }
+
+export const deleteProjectModel = async (project_id) => {
+  try {
+    const res = await model.deleteOne({ project_id })
+    return res
+  } catch (error) {
+    return false
+  }
+}

@@ -98,6 +98,16 @@ export const updateStarModel = async (updateInfo) => {
       { blog_id: blog_id },
       { $set: { star: newStar } }
     )
+
+    return res
+  } catch (error) {
+    return false
+  }
+}
+
+export const deleteBlogModel = async (blog_id) => {
+  try {
+    const res = await model.deleteOne({ blog_id })
     return res
   } catch (error) {
     return false

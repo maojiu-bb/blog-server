@@ -1,6 +1,7 @@
 import express from 'express'
 
 import {
+  deleteBlogModel,
   findAllBlogsModel,
   findBlogDetailModel,
   findBlogSortModel,
@@ -10,7 +11,11 @@ import {
   updateViewModel
 } from '../models/blogs.js'
 
-import { findAllSwiperModel } from '../models/swipers.js'
+import {
+  addSwiperModel,
+  deleteSwiperModel,
+  findAllSwiperModel
+} from '../models/swipers.js'
 
 import {
   findUserModel,
@@ -18,9 +23,17 @@ import {
   updateUserInfoModel
 } from '../models/users.js'
 
-import { findAllProjectModel, insertProjectModel } from '../models/projects.js'
+import {
+  deleteProjectModel,
+  findAllProjectModel,
+  insertProjectModel
+} from '../models/projects.js'
 
-import { findAllTagsModel } from '../models/tags.js'
+import {
+  addTagModel,
+  deleteTagModel,
+  findAllTagsModel
+} from '../models/tags.js'
 
 const router = express.Router()
 
@@ -41,6 +54,58 @@ router.get('/swiper', async (req, res) => {
     })
   }
 })
+// 添加轮播图
+router.post('/addswiper', async (req, res) => {
+  const { swiper } = req.body
+  if (!swiper) {
+    return res.send({
+      code: 201,
+      msg: '请填写必要参数！',
+      data: null
+    })
+  } else {
+    const result = await addSwiperModel(swiper)
+    if (result) {
+      res.send({
+        code: 200,
+        msg: '添加数据成功！',
+        data: null
+      })
+    } else {
+      res.send({
+        code: 201,
+        msg: '添加数据失败！',
+        data: null
+      })
+    }
+  }
+})
+// 删除轮播图
+router.delete('/deleteswiper', (req, res) => {
+  const { swiper_id } = req.body
+  if (!swiper_id) {
+    return res.send({
+      code: 201,
+      msg: '请填写必要参数！',
+      data: null
+    })
+  } else {
+    const result = deleteSwiperModel(swiper_id)
+    if (result) {
+      res.send({
+        code: 200,
+        msg: '删除数据成功！',
+        data: null
+      })
+    } else {
+      res.send({
+        code: 201,
+        msg: '删除数据失败！',
+        data: null
+      })
+    }
+  }
+})
 
 // 获取分类列表
 router.get('/tags', async (req, res) => {
@@ -57,6 +122,58 @@ router.get('/tags', async (req, res) => {
       msg: '获取数据失败！',
       data: null
     })
+  }
+})
+// 增加分类
+router.post('/addtag', async (req, res) => {
+  const { tag } = req.body
+  if (!tag) {
+    return res.send({
+      code: 201,
+      msg: '请填写必要参数！',
+      data: null
+    })
+  } else {
+    const result = await addTagModel(tag)
+    if (result) {
+      res.send({
+        code: 200,
+        msg: '新增数据成功！',
+        data: null
+      })
+    } else {
+      res.send({
+        code: 201,
+        msg: '新增数据失败！',
+        data: null
+      })
+    }
+  }
+})
+// 删除分类
+router.delete('/deletetag', async (req, res) => {
+  const { tag_id } = req.body
+  if (!tag_id) {
+    return res.send({
+      code: 201,
+      msg: '请填写必要参数！',
+      data: null
+    })
+  } else {
+    const result = await deleteTagModel(tag_id)
+    if (result) {
+      res.send({
+        code: 200,
+        msg: '删除分类成功！',
+        data: null
+      })
+    } else {
+      res.send({
+        code: 201,
+        msg: '删除分类失败!',
+        data: null
+      })
+    }
   }
 })
 
@@ -223,6 +340,32 @@ router.post('/updateStar', async (req, res) => {
     }
   }
 })
+// 删除博客
+router.delete('/deleteBlog', async (req, res) => {
+  const { blog_id } = req.body
+  if (!blog_id) {
+    return res.send({
+      code: 201,
+      msg: '请填写必要参数！',
+      data: null
+    })
+  } else {
+    const result = await deleteBlogModel(blog_id)
+    if (result) {
+      res.send({
+        code: 200,
+        msg: '删除数据成功！',
+        data: null
+      })
+    } else {
+      res.send({
+        code: 201,
+        msg: '删除数据失败！',
+        data: null
+      })
+    }
+  }
+})
 
 // 获取用户信息接口
 router.get('/user', async (req, res) => {
@@ -338,6 +481,32 @@ router.post('/publicProject', async (req, res) => {
       res.send({
         code: 201,
         msg: '发布项目失败！',
+        data: null
+      })
+    }
+  }
+})
+// 删除项目
+router.delete('/deleteProject', async (req, res) => {
+  const { project_id } = req.body
+  if (!project_id) {
+    return res.send({
+      code: 200,
+      msg: '请填写必要参数！',
+      data: null
+    })
+  } else {
+    const result = await deleteProjectModel(project_id)
+    if (result) {
+      res.send({
+        code: 200,
+        msg: '删除数据成功！',
+        data: null
+      })
+    } else {
+      res.send({
+        code: 200,
+        msg: '删除数据失败！',
         data: null
       })
     }
